@@ -1,0 +1,169 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block header %} {% endblock header%}
+
+{% block content%}
+<style type="text/css">
+  input:disabled,
+
+  input[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
+</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'blog/signin.css' %}">
+<script type="text/javascript">
+  var check_3 = function () {
+    var x = document.getElementById('contact').value;
+    if (x == "") {
+      document.getElementById('number').style.color = 'red';
+      document.getElementById('number').innerHTML = 'empty field';
+
+    } else {
+
+      document.getElementById('number').innerHTML = '';
+
+    }
+  }
+</script>
+<script type="text/javascript">
+  var check_2 = function () {
+    var x = document.getElementById('email').value;
+    if (x == "") {
+      document.getElementById('mail').style.color = 'red';
+      document.getElementById('mail').innerHTML = 'empty field';
+
+    } else {
+
+      document.getElementById('mail').innerHTML = '';
+    }
+
+  }
+</script>
+<script type="text/javascript">
+  var check_1 = function () {
+    var x = document.getElementById('fullname').value;
+    if (x == "") {
+      document.getElementById('name').style.color = 'red';
+      document.getElementById('name').innerHTML = 'empty field';
+
+    } else {
+
+      document.getElementById('name').innerHTML = '';
+    }
+
+  }
+
+
+</script>
+<script type="text/javascript">
+  var check = function () {
+    if (document.getElementById('password').value == "") {
+      document.getElementById('pass').style.color = 'red';
+      document.getElementById('pass').innerHTML = 'empty field';
+
+
+
+    }
+
+
+
+    if (document.getElementById('password').value != "") {
+      document.getElementById('pass').style.color = 'green';
+      document.getElementById('pass').innerHTML = '';
+      if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = '';
+        document.getElementById('submit').disabled = false;
+      }
+      else {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'not matched';
+        document.getElementById('submit').disabled = true;
+      }
+
+    }
+
+  }
+
+
+</script>
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+
+    <div class="fadeIn first">
+
+
+
+
+
+      <a style="font-size: 40px;">Registration</a>
+      {% include "blog/messages.html" %}
+    </div>
+    <div>
+
+
+      <!-- Login Form -->
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="value">
+
+          <input type="text" class="fadeIn second" id="fullname" name="fullname" placeholder="Username" required=""
+            onfocusout='check_1();' {% if fullname %} value="{{ fullname }}" {% else %} {% endif %}>
+        </div>
+        <span id='name' style="font-size: small;font-family: ui-monospace;"></span>
+
+
+        <div class="value">
+
+          <input type="text" class="fadeIn second" id="email" name="email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            title="please follow requested pattern :characters@characters.domain" placeholder="Email" required=""
+            onfocusout='check_2();' {% if email %} value="{{ email }}" {% else %} {% endif %}>
+        </div>
+        <span id='mail' style="font-size: small;font-family: ui-monospace;"></span>
+        <div class="value">
+
+          <input type="text" class="fadeIn third" maxlength="10" pattern="^\d{10}$" id="contact" name="contact"
+            placeholder="Enter 10 digit mobile no." required="" onfocusout='check_3();' {% if contact %}
+            value="{{ contact }}" {% else %} {% endif %}>
+        </div>
+        <span id='number' style="font-size: small;font-family: ui-monospace;"></span>
+
+        <div class="value">
+
+
+          <input type="password" class="fadeIn third" id="password" type="password" name="password"
+            placeholder="Password" required="">
+        </div>
+        <span id='pass' style="font-size: small;font-family: ui-monospace;"></span>
+        <div class="value">
+
+
+          <input type="password" class="fadeIn third" id="confirm_password" type="password" name="confirm_password"
+            placeholder="Confirm Password" onkeyup='check();' required="">
+        </div>
+        <span id='message' style="font-size: small;font-family: ui-monospace;"></span>
+
+        <div>
+          <input type="submit" id="submit" class="fadeIn fourth" value="Sign Up" style="cursor: pointer;" disabled>
+      </form>
+    </div>
+
+    <div id="formFooter">
+      <a class="underlineHover" href="{% url 'blog-signin' %}">Already have account?</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block header %} {% endblock header%}
+{% block content%}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'blog/signin.css' %}">
+<script type="text/javascript">
+  var check_1 = function () {
+    var x = document.getElementById('email').value;
+    if (x == "") {
+      document.getElementById('name').style.color = 'red';
+      document.getElementById('name').innerHTML = 'empty field';
+      // document.getElementById('submit').disabled = false;
+    } else {
+      document.getElementById('name').style.color = 'green';
+      document.getElementById('name').innerHTML = '';
+    }
+  }
+
+
+</script>
+<script type="text/javascript">
+  var check_2 = function () {
+    var x = document.getElementById('password').value;
+    if (x == "") {
+      document.getElementById('pass').style.color = 'red';
+      document.getElementById('pass').innerHTML = 'empty field';
+      // document.getElementById('submit').disabled = false;
+    } else {
+      document.getElementById('pass').style.color = 'green';
+      document.getElementById('pass').innerHTML = '';
+    }
+
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+
+    <div class="fadeIn first">
+      {% include "blog/messages.html" %}
+      <a>LOG IN </a>
+    </div>
+    <div>
+      <!-- Login Form -->
+      <form method="POST">
+        {% csrf_token %}
+
+
+        <div class="value">
+
+          <input type="text" class="fadeIn second" id="email" name="username" placeholder="username" required=""
+            onfocusout='check_1();' {% if email %} value="{{ email }}" {% else %} value="" {% endif %}>
+        </div>
+        <span id='name' style="font-size: small;font-family: ui-monospace;"></span>
+        <div class="value">
+
+          <input type="password" class="fadeIn third" id="password" name="password" placeholder="Password" required=""
+            onfocusout='check_2();'>
+        </div><span id='pass' style="font-size: small;font-family: ui-monospace;"></span>
+
+        <div>
+          <input type="submit" class="fadeIn fourth" value="Log In" style="cursor: pointer;">
+      </form>
+    </div>
+
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}

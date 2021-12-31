@@ -1,0 +1,446 @@
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+  .green-border-focus .form-control:focus {
+    border: 1px solid #8bc34a;
+    box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, 0.25);
+  }
+  a{
+    cursor: pointer;
+  }
+</style>
+
+<!------ Include the above in your HEAD tag ---------->
+{% load static %}
+<head>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+    integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+    crossorigin="anonymous"
+  />
+  <link
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'blog/profile.css' %}"
+  />
+  <link
+    rel="stylesgeet"
+    href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css"
+  />
+</head>
+
+<body class="profile-page">
+  <nav
+    class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg"
+    color-on-scroll="100"
+    id="sectionsNav"
+  >
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand" href="{% url 'blog-main' %}">VICHAR-BLOG</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="dropdown nav-item">
+            <a
+              
+              class="dropdown-toggle nav-link"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="material-icons">apps</i>
+            </a>
+
+            <div class="dropdown-menu dropdown-with-icons">
+              <a  class="dropdown-item" onclick="showhide()">
+                <i class="material-icons">layers</i>Cover pic
+              </a>
+
+              <a  class="dropdown-item" onclick="showhide1()">
+                <i class="material-icons">edit</i>Profile pic
+              </a>
+              <a  class="dropdown-item" onclick="showhide2()">
+                <i class="material-icons">edit</i>Bio
+              </a>
+              <a class="dropdown-item" onclick="showhide3()">
+                <i class="material-icons">edit</i>UserName
+              </a>
+              <a  class="dropdown-item" onclick="showhide4()">
+                <i class="material-icons">edit</i>Reset Password
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog-create' %}">
+              <i class="material-icons">edit</i>Create Post
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="material-icons">logout</i>Logout
+            </a>
+          </li>
+   
+        </ul>
+      </div>
+    </div>
+  </nav>
+ 
+
+  <div
+    class="page-header header-filter"
+    data-parallax="true"
+    style="background-image:url('/media/{{ profile.coverphoto }}')"
+  ></div>
+
+
+  <div class="main main-raised">
+    <div class="profile-content">
+      <div id="newpost" style="display: none; float: right">
+        <form
+          class="md-form"
+          action="{% url 'blog-cover' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %} 
+          <div class="file-field">
+            <div class="d-flex justify-content-center" style="margin-right: 67px;">
+              <div id="yourBtn" onclick="getFile()" class="btn btn-mdb-color btn-rounded float-left" style="background: yellowgreen; border-radius:8px;">
+                <div >click to upload a Cover Photo</div>
+  
+                <div style='height: 0px;width: 0px; overflow:hidden;'>
+                  <input id="upfile"  name="img" type="file" accept="image/*" value="upload" onchange="readURL(this)" />
+                </div>
+                
+              </div>
+              
+            </div>
+            <div style="margin-top: 22px; margin-left: 58px; " ><img id="blah" alt=""  src="#" /></div>
+          </div>
+          <button type="submit"style="margin-left: 118px;border: transparent;cursor: pointer; margin-top: 11px; ">
+            <i class="material-icons">edit</i>
+          </button>
+        </form>
+      </div>
+      <div id="newpost1" style="display: none; float: right">
+        <form
+          class="md-form"
+          action="{% url 'blog-profilepic' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="file-field">
+            <div class="d-flex justify-content-center" style="margin-right: 67px;">
+              <div id="yourBtn" onclick="getFile1()" class="btn btn-mdb-color btn-rounded float-left" style="background: yellowgreen; border-radius:8px; ">
+                 <div >click to upload a Profile Photo</div>
+  
+                    <div style='height: 0px;width: 0px; overflow:hidden;'>
+                        <input id="upfile1"  name="img" type="file" accept="image/*" value="upload" onchange="readURLpro(this)" />
+                     </div>
+               
+                
+              </div>
+              
+            </div>
+            <div style="margin-top: 22px; margin-left: 58px; " ><img id="pro" alt=""  src="#" /></div>
+          </div>
+          <button type="submit" style="margin-left: 118px;border: transparent;cursor: pointer; margin-top: 11px;  ">
+            <i class="material-icons">edit</i>
+          </button>
+        </form>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile">
+              <div class="avatar">
+                
+                <img
+                  src="/media/{{ profile.photo }}"
+                  alt="Circle Image"
+                  class="img-raised rounded-circle img-fluid"
+                />
+
+                
+              </div>
+
+              <div class="name">
+                <h3 class="title">
+                  {{ profile.fullname }}
+                </h3>
+              
+                {% include "blog/messages.html" %}
+                <form action="{% url 'blog-username' %}"  method="POST">
+                  {% csrf_token %}
+                <div
+                  id="newpost3"
+                  style="display: none;
+                    margin-block-start: 4px;
+                    margin-right: -68px;
+                    margin-left: -31px;
+                  "
+                >
+                
+                  <div class="form-group green-border-focus">
+                      <label for="exampleFormControlTextarea5"
+                      >Update Username</label
+                    >
+                    <input
+                      class="form-control"
+                      id="exampleFormControlTextarea5"
+                      name="username"
+                      rows="2" style="padding: 20px;" 
+                    >
+                   
+                    <button type="submit" class="btn btn-outline-info">Update</button>
+                    
+                  </form>
+                </div>
+              </div>
+              <form action="{% url 'blog-resetpass' %}"  method="POST">
+                {% csrf_token %}
+              <div
+                id="newpost4"
+                style="display: none;
+                  margin-block-start: 4px;
+                  margin-right: -68px;
+                  margin-left: -31px;
+                "
+              >
+              
+                <div class="form-group green-border-focus">
+                    <label for="exampleFormControlTextarea5"
+                    >Reset Password</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="exampleFormControlTextarea5"
+                    name="oldpassword" placeholder="enter old password"
+                    rows="2" style="padding: 20px;" 
+                  >
+                  <input
+                  type="password"
+                    class="form-control"
+                    id="exampleFormControlTextarea5"
+                    name="newpassword" placeholder="enter new password"
+                    rows="2" style="padding: 20px;" 
+                  >
+                 
+                  <button type="submit" class="btn btn-outline-info">Reset</button>
+                  
+                </form>
+              </div>
+            </div>
+
+
+
+
+                <h6>{% if profile.aboutpro != none and profile.aboutpro|length > 0 %}{{ profile.aboutpro }}{% else %}Add Profession{% endif %}</h6>
+                <a  class="btn btn-just-icon btn-link btn-dribbble"
+                  ><i class="fa fa-dribbble"></i
+                ></a>
+                <a  class="btn btn-just-icon btn-link btn-twitter"
+                  ><i class="fa fa-twitter"></i
+                ></a>
+                <a
+                  
+                  class="btn btn-just-icon btn-link btn-pinterest"
+                  ><i class="fa fa-pinterest"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="description text-center">
+         
+        <form action="{% url 'blog-bio' %}"  method="POST">
+            {% csrf_token %}
+          <div
+            id="newpost2"
+            style="display: none;
+              margin-block-start: 4px;
+              margin-right: -68px;
+              margin-left: -31px;
+            "
+          >
+          
+            <div class="form-group green-border-focus">
+                <label for="exampleFormControlTextarea5"
+                >Add Profession: Maximum 50 Character </label
+              >
+              <input
+                class="form-control"
+                id="exampleFormControlTextarea5"
+                name="pro"
+                rows="2" style="padding: 20px;"
+              >
+              <br>
+              <label for="exampleFormControlTextarea5"
+                >Add bio: Maximum 500 Character </label
+              >
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea5"
+                name="bio"
+                rows="5" style="padding: 30px;"
+              ></textarea>
+              <button type="submit" class="btn btn-outline-info">Add Bio</button>
+                </form>
+            </div>
+          </div>
+          <p>
+        {% if profile.aboutprofile != none and profile.aboutprofile|length > 0 %}{{ profile.aboutprofile|linebreaks }}{% else %}Add Bio{% endif %}
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile-tabs">
+              <ul
+                class="nav nav-pills nav-pills-icons justify-content-center"
+                role="tablist"
+              >
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    href="#studio"
+                    role="tab"
+                    data-toggle="tab"
+                  >
+                    <i class="material-icons">palette</i>
+                    Posts
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content tab-space">
+          <div class="tab-pane active text-center gallery" style="margin-block-start: 79px; margin-left: 354px;" id="studio">
+            <div class="row">
+              <div class="col-md-3 ml-auto" style="margin-block-start: 5px;margin-right: 461px;">
+              {% for post in object_list %}
+              {% if post.blogphoto %}
+              
+                <div  class="close" style="margin-right: -36px; ">
+                <a  href_url="{% url 'blog-delete' post.id %}" class="del" onclick="deletepost(this); return false;" sq-id="{{ post.id }}" style="color:black;">X</a>
+                </div>
+                <div style="margin-inline-start: -230px;" >
+                  <a href="{% url 'blog-update'   post.id %}" >
+                    <i class="material-icons" style="cursor: pointer;">edit</i>
+                  </a>
+                </div>
+              <a href="{% url 'blog-post' post.id %} ">
+                <img src="/media/{{ post.blogphoto }}" class="rounded" style="max-width: 318px;max-height: 300px;margin-block-start: -32px;"/>
+              </a>
+              {% else %}
+              <div  class="close" style="margin-right: -36px; ">
+                <a  href_url="{% url 'blog-delete' post.id %}"class="del" onclick="deletepost(this); return false;"" sq-id="{{ post.id }}" style="color:black;">X</a>
+                </div>
+                <div style="margin-inline-start: -230px;" >
+                  <a href="{% url 'blog-update'   post.id %}" >
+                    <i class="material-icons" style="cursor: pointer;">edit</i>
+                  </a>
+                </div>
+              {% endif %}
+              
+              <a href="{% url 'blog-post' post.id %} " >
+                <div style="text-align: unset;
+                margin: auto;">
+                <h3>{{ post.title|slice:":20" }}...</h3></div>
+              </a>
+            
+              <br>
+              
+              
+              
+              {% endfor %}
+              </div>
+      
+            </div>
+          </div>
+   
+       
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer text-center">
+    <p>
+
+    </p>
+  </footer>
+
+  <script
+    src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+    integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+    integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+    crossorigin="anonymous"
+  ></script>
+
+  <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+  <script>
+
+  function deletepost(obj){
+  var url_building_delete= $(obj).attr('href_url');
+  var c  = confirm("Are you sure you want to delete?");
+  if (c){          
+    $.ajax({        
+        type:'POST',
+        url: url_building_delete,
+        data: {csrfmiddlewaretoken:window.CSRF_TOKEN},                                      
+        success:function(data){  
+              window.location.reload();            
+           }
+       });
+
+}
+}
+
+    </script>
+  
+
+
+
+ 
+</body>

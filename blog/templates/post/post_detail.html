@@ -1,0 +1,68 @@
+{% extends "base/base1.html"  %}
+
+{% block title %}{% if object %}{{object.title}}{% endif %}{% endblock title %}
+
+{% block nav %}
+{% include 'base/nav_base.html'%}
+{% endblock nav %}
+
+
+{% block header %}
+
+
+{% block image %}
+
+<header class="masthead" style="background-image: url( '/media/{{ object.blogphoto}}')" >
+{% endblock image %}
+
+  <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>{{ object.title }}</h1>
+            <h2 class="subheading">{{ object.content|slice:":20" }}...</h2>
+            <span class="meta">Posted by
+              <a 
+          
+              href="{% url 'blog-userprofile' object.author_id  %}">{{ object.author }}</a>
+              on {{ object.date_posted }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+{% endblock header %}
+{% block content %}
+<article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>{{ object.content|linebreaks }}</p>
+
+          
+
+          <h2 class="section-heading">{{object.title}}</h2>
+
+          <a >
+            
+            <img class="img-fluid" src="/media/{{ object.blogphoto }}" >
+            
+          </a>
+          <span class="caption text-muted">Posted by <a
+          
+            href="{% url 'blog-userprofile' object.author_id  %}">{{ object.author }}</a>
+            on {{ object.date_posted }}</span>
+
+
+
+    
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+{% endblock content %}
+

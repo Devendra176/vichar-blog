@@ -1,0 +1,114 @@
+{% extends "base/base3.html" %} {% block cover %}
+
+<div
+  class="page-header header-filter"
+  data-parallax="true"
+  style="background-image:url('/media/{{ registeruser.coverphoto }}')"
+></div>
+{% endblock cover %} {% block profilepic %}
+<img
+  src="/media/{{ registeruser.photo }}"
+  alt="Circle Image"
+  class="img-raised rounded-circle img-fluid"
+/>
+{% endblock profilepic %} {% block fullname %} {{ registeruser.fullname }} {%endblock fullname %} {% block func %}
+<div class="row">
+  <div class="col-md-6 ml-auto mr-auto">
+    <div class="profile-tabs">
+      <ul
+        class="nav nav-pills nav-pills-icons justify-content-center"
+        role="tablist"
+      >
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            href="#studio"
+            role="tab"
+            data-toggle="tab"
+          >
+            <i class="material-icons">camera</i>
+            Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock func %} 
+{% block pro %} 
+{% if registeruser.aboutpro != none and registeruser.aboutpro|length > 0 %}
+ {{ registeruser.aboutpro }} 
+ {% else %}
+ADD Profession
+{% endif %} 
+{% endblock pro %} 
+{% block bio %} 
+{% if registeruser.aboutprofile != none and registeruser.aboutprofile|length > 0 %} 
+{{registeruser.aboutprofile }}
+ {% else %} ADD BIO {% endif %} 
+ {% endblock bio %}
+{% if object_list %} 
+{% block post %} 
+{% for post in object_list %} 
+{% if post.blogphoto %} {% if registeruser.user_id == request.user.pk %}
+<div class="close" style="margin-inline: 400px">
+  <a
+    href_url="{% url 'blog-delete' post.id %}"
+    class="del"
+    onclick="deletepost(this); return false;"
+    sq-id="{{ post.id }}"
+    style="color: black"
+    >X</a
+  >
+</div>
+<div style="margin-inline-start: 70px">
+  <a href="{% url 'blog-update'   post.id %}">
+    <i class="material-icons" style="cursor: pointer">edit</i>
+  </a>
+</div>
+{% endif %}
+<div>
+  <a href="{% url 'blog-post' post.id %} ">
+    <img
+      src="/media/{{ post.blogphoto }}"
+      class="rounded"
+      style="
+        width: 232px;
+        height: 154px;
+        margin-block-start: -32px;
+        margin-left: 96px;
+      "
+    />
+  </a>
+</div>
+<div style="margin-bottom: 25px; text-indent: 140px">
+  {{ post.title|slice:":25" }}....
+</div>
+<br />
+
+{%else%} {% if registeruser.user_id == request.user.pk %}
+<div class="close" style="margin-inline: 400px">
+  <a
+    href_url="{% url 'blog-delete' post.id %}"
+    class="del"
+    onclick="deletepost(this); return false;"
+    sq-id="{{ post.id }}"
+    style="color: black"
+    >X</a
+  >
+</div>
+<div style="margin-inline-start: 70px">
+  <a href="{% url 'blog-update'   post.id %}">
+    <i class="material-icons" style="cursor: pointer">edit</i>
+  </a>
+</div>
+{% endif %}
+<a
+  href="{% url 'blog-post' post.id %}"
+  style="font-size: 25px; margin-left: 155px"
+>
+  {{ post.title|slice:":25" }}....
+</a>
+<br />
+
+{% endif %} {% endfor %} {% endblock post %} {% endif %}

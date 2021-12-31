@@ -1,0 +1,75 @@
+{% extends "base/base1.html" %}
+{% block nav %}
+{% include 'base/nav_base.html'%}
+{% endblock nav %}
+
+{% block image %}
+
+<header class="masthead" style=" background-image: url('/media/{{ profile.coverphoto }}')">
+
+
+
+  {% endblock image %}
+
+
+
+
+  {% block content %}
+  {% include "blog/messages.html" %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <p>Create your own Post</p>
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Tittle</label>
+              <input type="text" class="form-control" placeholder="title" id="title" name="title" required
+                data-validation-required-message="Please specify Title of your post" {% if object %}
+                value="{{ object.title }}" {% endif %}>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <input type="hidden" name="user" value="{{ request.user.pk }}">
+
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Message</label>
+              <textarea rows="5" class="form-control" placeholder="Content" id="content" name="content" required
+                data-validation-required-message="Please enter a message.">{% if object %}{{ object.content }}{% endif %}</textarea>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <input type="file" id="img" name="img" accept="image/*" onchange="readURL(this);">
+              <img id="blah" alt="" src="/media/{{ object.blogphoto }}" style="max-height: 200px;" else %} src="#" />
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          <button type="submit" class="btn btn-primary" id="sendMessageButton">{{naming}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#blah').attr('src', e.target.result).width(150).height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+
+  {% endblock content %}

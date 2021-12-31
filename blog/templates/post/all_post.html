@@ -1,0 +1,94 @@
+ {% extends "base/base1.html" %}
+
+{% block image %}
+ 
+  <header class="masthead" style=" background-image: url('/media/{{ profile.coverphoto }}')">
+{% endblock image %}
+
+
+ {% block nav %}
+
+ {% include 'base/nav_base.html'%}
+
+ {% endblock nav %}
+
+ {% block content %}
+ {% include 'blog/messages.html' %}
+
+ <div class="container" id="example" >
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      {% for post in object_list %}
+      <div class="post-preview">
+        <a href="{% url 'blog-post'  post.id %}">
+          <h2 class="post-title">
+            {{ post.title }}
+          </h2>
+          <h3 class="post-subtitle">
+            {% if post.content %}
+           {{ post.content|slice:":20"  }}....
+           {% endif %}
+           
+          </h3>
+        </a>
+        <p class="post-meta">Posted by
+          <a 
+          
+          href="{% url 'blog-userprofile' post.author_id  %}">{{ post.author.user.username }}</a>
+          on {{ post.date_posted }}</p>
+      </div>
+      {% if post.author_id == profile.id %}
+      <div>
+      <a href="{% url 'blog-update'   post.id %}">Update</a>
+      
+      <a style="float: right;" onclick="deletepost(this); return false;" href_url="{% url 'blog-delete' post.id %}" class="del">Delete</a>
+      </div>
+      {% else %}{% endif %}
+      <hr>
+   
+      {% endfor %}
+
+ 
+      <!-- Pager -->
+
+      <div class="clearfix">
+        {% if page_obj.has_previous %}
+        <a class="btn btn-primary float-right" href="?page=1">&laquo; first</a>
+        <a  class="btn btn-primary float-left" href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+    
+    {% if page_obj.has_next %}
+    <a  class="btn btn-primary float-right" href="?page={{ page_obj.next_page_number }}">next</a>
+
+    <a  class="btn btn-primary float-left" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<script>
+
+  function deletepost(obj){
+  var url_building_delete= $(obj).attr('href_url');
+  var c  = confirm("Are you sure you want to delete?");
+  if (c){          
+    $.ajax({        
+        type:'POST',
+        url: url_building_delete,
+        data: {csrfmiddlewaretoken:window.CSRF_TOKEN},                                      
+        success:function(data){  
+              window.location.reload();            
+           }
+       });
+
+}
+}
+
+</script>
+
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
+ {% endblock content %}
+ 

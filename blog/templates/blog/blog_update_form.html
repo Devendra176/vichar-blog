@@ -1,0 +1,109 @@
+{% extends "base/base1.html" %}
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'blog-main' %}">VICHAR-BLOG</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog-main' %}">Home</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog-profile' %}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Create Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endblock nav %}
+
+{% block image %}
+
+<header class="masthead" style=" background-image: url('/media/{{ profile.coverphoto }}')">
+
+
+
+{% endblock image %}
+
+
+
+
+{% block content %}
+{% include "blog/messages.html" %}
+<div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <p>Create your own Post</p>
+     
+        <form method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+            
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Tittle</label>
+              <input type="text" class="form-control" placeholder="title" id="title"  name="title" required data-validation-required-message="Please specify Title of your post" {% if posts %}
+              value="{{ posts.title }}"
+              
+              {% endif %} >
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <input type="hidden" name="user"
+          value="{{ request.session.user }}"
+          
+          >
+  
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Message</label>
+              <textarea rows="5" class="form-control" placeholder="Content" id="content" name="content" required data-validation-required-message="Please enter a message.">{% if posts %}{{ posts.content }}{% endif %}</textarea>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+                <input type="file" id="img" name="img" accept="image/*" onchange="readURL(this);">
+                <img id="blah" alt=""  {% if posts %} src="/media/{{ posts.blogphoto }}" style="max-height: 200px;" else %} src="#" {% endif %}/>
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          {% if posts %}
+          <input type="hidden"  name="update" value="{{ posts.id }}">
+          {% else %}
+            
+          {% endif %}
+          
+          <button type="submit" class="btn btn-primary" id="sendMessageButton"> {% if posts %}UPDATE{% else %} Send {% endif %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+<script>
+	function readURL(input) {
+if (input.files && input.files[0]) {
+var reader = new FileReader();
+
+reader.onload = function (e) {
+$('#blah').attr('src', e.target.result).width(150).height(200);
+};
+
+reader.readAsDataURL(input.files[0]);
+}
+}
+</script>
+
+{% endblock content %}

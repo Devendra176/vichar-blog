@@ -1,0 +1,64 @@
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+
+
+
+{% block header  %}{% endblock header %}
+{% block script %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'blog/signin.css' %}">
+
+
+  {% endblock script %} 
+
+
+
+
+
+  {% block content%}
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+
+
+            <div class="fadeIn first">
+              {% include "blog/messages.html" %}
+            
+              
+              
+  
+ 
+                <a>Enter OTP</a>
+            </div>
+            <div>
+
+
+                <!-- Login Form -->
+                <form action="" method="POST">
+                {% csrf_token %}
+                 
+
+                    <div class="value">
+                     
+                        <input type="text" class="fadeIn second" id="otp" name="otp" placeholder="Enter 6 digit OTP" maxlength="6" pattern="^\d{6}$"
+                            required="" onfocusout='check_1();' >
+                    </div>
+               
+
+    <div>
+      <input type="submit" class="fadeIn fourth" value="submit" style="cursor: pointer;">
+    </form>
+  </div>
+
+    <div id="formFooter">
+      <a class="underlineHover" href="{% url 'blog-forget' %}">Forgot Password?</a>
+    </div>
+</div>
+  </div>
+</div>
+
+{% endblock content %}
